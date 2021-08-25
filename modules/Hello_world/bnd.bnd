@@ -1,0 +1,5 @@
+Bundle-Name: Hello_world
+Bundle-SymbolicName: hello_world
+Bundle-Version: 1.0.0
+Export-Package: hello_world.constants
+Import-Package: *;resolution:=optional
