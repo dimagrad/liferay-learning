@@ -9,9 +9,9 @@ import javax.portlet.*;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import com.liferay.user.service.UserService;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author dima
@@ -33,16 +33,13 @@ import java.util.List;
 )
 public class Hello_worldPortlet extends MVCPortlet {
 
+	@Reference
+	private UserService servicePortlet;
 
-//	User: firstname, lastname, email
-//	List<User> - initialuze with hardcoded values
-//	render on jsp
-//List<UserEntity> users = UsersMock.getUsers();
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 
-		List<UserEntity> users = UsersMock.getUsers();
-		renderRequest.setAttribute("usersmock", users);
+		renderRequest.setAttribute("usersmock", servicePortlet.initUsers());
 		super.render(renderRequest, renderResponse);
 	}
 
