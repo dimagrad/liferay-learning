@@ -1,0 +1,6 @@
+Bundle-Name: service
+Bundle-SymbolicName: service
+Bundle-Version: 1.0.0
+Export-Package: com.liferay.user.service,\
+    com.liferay.user.model
+
