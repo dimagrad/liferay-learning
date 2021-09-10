@@ -39,58 +39,58 @@ import java.util.List;
  * @author dima
  */
 @Component(
-	immediate = true,
-	property = {
-		"com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.header-portlet-css=/css/main.css",
-		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=Hello_world",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + Hello_worldPortletKeys.HELLO_WORLD,
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
-	},
-	service = Portlet.class
+        immediate = true,
+        property = {
+                "com.liferay.portlet.display-category=category.sample",
+                "com.liferay.portlet.header-portlet-css=/css/main.css",
+                "com.liferay.portlet.instanceable=true",
+                "javax.portlet.display-name=Hello_world",
+                "javax.portlet.init-param.template-path=/",
+                "javax.portlet.init-param.view-template=/view.jsp",
+                "javax.portlet.name=" + Hello_worldPortletKeys.HELLO_WORLD,
+                "javax.portlet.resource-bundle=content.Language",
+                "javax.portlet.security-role-ref=power-user,user"
+        },
+        service = Portlet.class
 )
 public class Hello_worldPortlet extends MVCPortlet {
 
-	@Reference
-	private UserService servicePortlet;
+    @Reference
+    private UserService servicePortlet;
 
-	@Reference
-	private AssetVocabularyLocalService assetVocabularyLocalService;
+    @Reference
+    private AssetVocabularyLocalService assetVocabularyLocalService;
 
-	@Override
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+    @Override
+    public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 
-		renderRequest.setAttribute("usersmock", servicePortlet.initUsers());
+        renderRequest.setAttribute("usersmock", servicePortlet.initUsers());
 
 
-		String languageId = LanguageUtil.getLanguageId( renderRequest );
-		List<String> journalArticleList = new ArrayList<String>();
-		AssetEntryQuery assetEntryQuery = new AssetEntryQuery();
-		AssetVocabulary assetVocabulary = null;
-		try {
-			assetVocabulary = assetVocabularyLocalService.getAssetVocabulary(38309);
-			List<AssetCategory> assetCategoryList = assetVocabulary.getCategories();
+        String languageId = LanguageUtil.getLanguageId(renderRequest);
+        List<String> journalArticleList = new ArrayList<String>();
+        AssetEntryQuery assetEntryQuery = new AssetEntryQuery();
+        AssetVocabulary assetVocabulary = null;
+        try {
+            assetVocabulary = assetVocabularyLocalService.getAssetVocabulary(38309);
+            List<AssetCategory> assetCategoryList = assetVocabulary.getCategories();
 
-			assetEntryQuery.setAnyCategoryIds(assetCategoryList.stream().mapToLong(AssetCategoryModel::getCategoryId).toArray());
+            assetEntryQuery.setAnyCategoryIds(assetCategoryList.stream().mapToLong(AssetCategoryModel::getCategoryId).toArray());
 
-			List<AssetEntry> assetEntryList = AssetEntryLocalServiceUtil.getEntries(assetEntryQuery);
-			JournalArticleResource journalArticleResource = null;
+            List<AssetEntry> assetEntryList = AssetEntryLocalServiceUtil.getEntries(assetEntryQuery);
+            JournalArticleResource journalArticleResource = null;
 
-			for (AssetEntry ae : assetEntryList) {
-				journalArticleResource = JournalArticleResourceLocalServiceUtil.getJournalArticleResource(ae.getClassPK());
-				JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(journalArticleResource.getResourcePrimKey());
-				journalArticleList.add(journalArticle.getTitle());
-			}
-		}catch(PortalException e){
-				e.printStackTrace();
-			}
+            for (AssetEntry ae : assetEntryList) {
+                journalArticleResource = JournalArticleResourceLocalServiceUtil.getJournalArticleResource(ae.getClassPK());
+                JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(journalArticleResource.getResourcePrimKey());
+                journalArticleList.add(journalArticle.getTitle());
+            }
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
 
-		if (renderRequest.isUserInRole(RoleConstants.ADMINISTRATOR))
-		renderRequest.setAttribute("article", journalArticleList);
+        if (renderRequest.isUserInRole(RoleConstants.ADMINISTRATOR))
+            renderRequest.setAttribute("article", journalArticleList);
 
 //		Role role = RoleLocalServiceUtil.getRole(companyId, RoleConstants.ADMINISTRATOR);
 //
@@ -99,14 +99,12 @@ public class Hello_worldPortlet extends MVCPortlet {
 //		final User user = themeDisplay.getUser();
 
 
-		super.render(renderRequest, renderResponse);
-		}
+        super.render(renderRequest, renderResponse);
+    }
 
 
-
-
-	@Activate
-	public void asdasd(){
-		System.out.println("asdasd");
-	}
+    @Activate
+    public void asdasd() {
+        System.out.println("asdasd");
+    }
 }
