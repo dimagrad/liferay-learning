@@ -29,3 +29,13 @@
 		</c:forEach>
 	</table>
 </h2>
+<h2>
+
+	<ul>
+		<c:if  test="$role"></c:if>
+		<c:forEach var="aq" items="${article}">
+			<li>${aq}</li>
+		</c:forEach>
+	</ul>
+
+</h2>
